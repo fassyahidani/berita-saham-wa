@@ -1,0 +1,29 @@
+name: Kirim Berita Saham Pagi
+
+on:
+  schedule:
+    # 00:00 UTC = 07:00 WIB (Senin-Jumat). Ganti ke '0 0 * * *' jika mau setiap hari
+    - cron: '0 0 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  kirim-berita:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode dari repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install library
+        run: pip install -r requirements.txt
+
+      - name: Jalankan script berita
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python berita_saham.py
