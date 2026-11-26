@@ -26,7 +26,7 @@ jobs:
           python-version: '3.11'
 
       - name: 4. Install library
-        run: pip install -r requirements.txt
+        run: pip install feedparser google-genai requests
 
       - name: 5. Jalankan script berita saham
         env:
